@@ -81,4 +81,50 @@
             padding-top: 64px;
         }
     }
+
+    &__question-screen {
+        display: flex;
+        flex-direction: column; 
+        align-items: center;
+        background: #46494e;
+        padding: 48px;
+        margin: 32px;
+
+        &__header {
+            display: flex;
+            justify-content: center;
+            font-family: serif;
+            font-weight: 200;
+            color: #f7f7f7;
+            text-transform: uppercase;
+            padding-bottom: 72px;
+        }
+
+        &__question {
+            color: #f7f7f7;
+            font-size: 42px;
+            font-family: serif;
+            padding-bottom: 72px;
+        }
+
+        &__actions {
+            display: flex;
+            justify-content: space-between;
+            min-width: 50%;
+            padding-bottom: 72px;
+
+            > button {
+                cursor: pointer;
+                display: flex;
+                max-width: 300px;
+                font-size: 42px;
+                padding: 24px 62px;
+                background-color: #46494e;;
+                color: #f7f7f7;
+                border: unset;
+                border: 2px solid #f7f7f7;
+            }
+
+        }
+    }
 }
