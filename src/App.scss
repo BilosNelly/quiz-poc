@@ -77,11 +77,11 @@
             padding-bottom: 72px;
 
             button:first-child {
-                margin: 8px;
+                margin: 8px 12px;
             }
             
             button:nth-child(2) {
-                margin: 8px;
+                margin: 8px 12px;
             }
 
             > button {
@@ -96,6 +96,11 @@
                 color: #f7f7f7;
                 border: unset;
                 border: 2px solid #f7f7f7;
+                transition: all .2s ease-in-out; 
+            }
+
+            button:hover { 
+                transform: scale(1.1); 
             }
 
         }
