@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+
 import './App.scss';
+import { QuizResult } from './QuizResult';
 
 //Enum
 const AnswerBtn = {
@@ -7,7 +9,7 @@ const AnswerBtn = {
     Second: 2
 }
 
-export const App = () => {
+export const OnQuizApp = () => {
 
     const getShoeData = () => {
         fetch('data.json'
@@ -52,6 +54,12 @@ export const App = () => {
     const firstAnswerRatingData = shoeData.questions && shoeData.questions[currentQuestion].answers[0].ratingIncrease;
     const secondAnswerRatingData = shoeData.questions && shoeData.questions[currentQuestion].answers[1].ratingIncrease;
 
+    const isLastQuestion = shoeData.questions && shoeData.questions[currentQuestion].answers[0].nextQuestion;
+
+    console.log('isLastQuestion', isLastQuestion);
+
+    //console.log('currentRating', currentRating)
+    
     return (
         <>
             {showQuestions ?
@@ -73,7 +81,6 @@ export const App = () => {
                 </div>
                 :
                 <div className="on-quiz">
-                    MAIN PAGE
                     <div className="on-quiz__content">
                         <h1 className="on-quiz__content__title">Take the quiz and try your first pair!</h1>
                         <button className="on-quiz__content__btn" type="button" onClick={onTrialClick}>
@@ -83,30 +90,7 @@ export const App = () => {
                     </div>
                 </div>
             }
-
-
-            {/* // RESULT PAGE
-        //       <div className="on-quiz__result__wrapper">
-        //           <div className="on-quiz__result">
-        //               <span className="on-quiz__result__title">Congratulations!</span>
-        //               <span className="on-quiz__result__description">Based on your selection we've decided on the Cloudventure and Cloudflyer! Enjoy the 30 day trial!</span>
-        //           </div>
-        //           <div className="on-quiz__result__shoe__wrapper">
-        //               <div className="on-quiz__result__shoe__img">here will be img</div>
-        //               <div className="on-quiz__result__shoe">
-        //                   <span className="on-quiz__result__title">Cloud X</span>
-        //                   <span className="on-quiz__result__description">You perfect partner in the world's lighest fully-cushioned shoe for Running Remixed.</span>
-        //               </div>
-        //               <div className="on-quiz__result__shoe__info">
-        //                   <span className="on-quiz__result__shoe__info__price">200CHF</span>
-        //                   <span className="on-quiz__result__shoe__info__separator" />
-        //                   <span>Neon and Grey</span>
-        //               </div>
-        //           </div>
-        //           <div className="on-quiz__result__btn">
-        //               <button>Shop now</button>
-        //           </div>
-        //       </div> */}
+            {/* <QuizResult /> */}
         </>
     );
 
@@ -126,7 +110,7 @@ export const App = () => {
 
     function updateRatingData(answer) {
 
-        const ratingData = answer === 1 ? firstAnswerRatingData :  secondAnswerRatingData;
+        const ratingData = answer === 1 ? firstAnswerRatingData : secondAnswerRatingData;
 
         setCurrentRating({
             cloud: currentRating.cloud + ratingData.cloud,
@@ -141,4 +125,4 @@ export const App = () => {
     }
 }
 
-export default App;
+export default OnQuizApp;
