@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './App.scss';
 
+//Enum
+const AnswerBtn = {
+    First: 1,
+    Second: 2
+}
+
 export const App = () => {
 
     const getShoeData = () => {
@@ -13,7 +19,6 @@ export const App = () => {
             }
         )
             .then((response) => {
-                //console.log('response', response)
                 return response.json();
             })
             .then(function (result) {
@@ -30,10 +35,22 @@ export const App = () => {
     //const [showQuestions, setShowQuestions] = useState<boolean>(false);
     const [showQuestions, setShowQuestions] = useState(false);
     const [currentQuestion, setCurrentQuestion] = useState(0);
+    const [currentRating, setCurrentRating] = useState({
+        cloud: 0,
+        cloudflow: 0,
+        cloudflyer: 0,
+        cloudsurfer: 0,
+        cloudventure: 0,
+        cloudventure_peak: 0,
+        cloudventure_waterproof: 0,
+        cloudx: 0,
+    });
 
     const firstAnswer = shoeData.questions && shoeData.questions[currentQuestion].answers[0].copy;
     const secondAnswer = shoeData.questions && shoeData.questions[currentQuestion].answers[1].copy;
-    console.log('current answer///', shoeData.questions && shoeData.questions[currentQuestion].answers[0].copy)
+
+    const firstAnswerRatingData = shoeData.questions && shoeData.questions[currentQuestion].answers[0].ratingIncrease;
+    const secondAnswerRatingData = shoeData.questions && shoeData.questions[currentQuestion].answers[1].ratingIncrease;
 
     return (
         <>
@@ -99,10 +116,28 @@ export const App = () => {
 
     function onFirstBtnClick(currentQuestion) {
         setCurrentQuestion(currentQuestion + 1);
+        updateRatingData(AnswerBtn.First);
     }
 
     function onSecondBtnClick(currentQuestion) {
         setCurrentQuestion(currentQuestion + 1);
+        updateRatingData(AnswerBtn.Second);
+    }
+
+    function updateRatingData(answer) {
+
+        const ratingData = answer === 1 ? firstAnswerRatingData :  secondAnswerRatingData;
+
+        setCurrentRating({
+            cloud: currentRating.cloud + ratingData.cloud,
+            cloudflow: currentRating.cloudflow + ratingData.cloudflow,
+            cloudflyer: currentRating.cloudflyer + ratingData.cloudflyer,
+            cloudsurfer: currentRating.cloudsurfer + ratingData.cloudsurfer,
+            cloudventure: currentRating.cloudventure + ratingData.cloudventure,
+            cloudventure_peak: currentRating.cloudventure_peak + ratingData.cloudventure_peak,
+            cloudventure_waterproof: currentRating.cloudventure_waterproof + ratingData.cloudventure_waterproof,
+            cloudx: currentRating.cloudx + ratingData.cloudx,
+        });
     }
 }
 
