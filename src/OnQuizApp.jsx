@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import './App.scss';
 import { QuizResult } from './QuizResult';
+import LoadingPage from './LoadingPage';
 
 //Enum
 const AnswerBtn = {
@@ -34,6 +35,8 @@ export const OnQuizApp = () => {
     }, [])
 
     const [shoeData, setShoeData] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+    //const [showResult, setShowResult] = useState(false);
     //const [showQuestions, setShowQuestions] = useState<boolean>(false);
     const [showQuestions, setShowQuestions] = useState(false);
     const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -54,43 +57,39 @@ export const OnQuizApp = () => {
     const firstAnswerRatingData = shoeData.questions && shoeData.questions[currentQuestion].answers[0].ratingIncrease;
     const secondAnswerRatingData = shoeData.questions && shoeData.questions[currentQuestion].answers[1].ratingIncrease;
 
-    const isLastQuestion = shoeData.questions && shoeData.questions[currentQuestion].answers[0].nextQuestion;
-
-    console.log('isLastQuestion', isLastQuestion);
-
-    //console.log('currentRating', currentRating)
-    
     return (
         <>
-            {showQuestions ?
-                <div className="on-quiz__question-screen">
-                    <div className="on-quiz__question-screen__header">
-                        <span>Try on quiz 30 days risk free</span>
-                    </div>
-                    <div className="on-quiz__question-screen__question">
-                        <span>{shoeData.questions && shoeData.questions[currentQuestion].copy}</span>
-                    </div>
-                    <div className="on-quiz__question-screen__actions">
-                        <button onClick={() => onFirstBtnClick(currentQuestion)}>
-                            {firstAnswer}
-                        </button>
-                        <button onClick={() => onSecondBtnClick(currentQuestion)}>
-                            {secondAnswer}
-                        </button>
-                    </div>
-                </div>
-                :
-                <div className="on-quiz">
-                    <div className="on-quiz__content">
-                        <h1 className="on-quiz__content__title">Take the quiz and try your first pair!</h1>
-                        <button className="on-quiz__content__btn" type="button" onClick={onTrialClick}>
-                            Try On Trial!
-                        </button>
-                        <span className="on-quiz__content__copy">30 Days risk free</span>
-                    </div>
-                </div>
-            }
-            {/* <QuizResult /> */}
+            {isLoading ? <LoadingPage /> :
+                <>
+                    {showQuestions ?
+                        <div className="on-quiz__question-screen">
+                            <div className="on-quiz__question-screen__header">
+                                <span>Try on quiz 30 days risk free</span>
+                            </div>
+                            <div className="on-quiz__question-screen__question">
+                                <span>{shoeData.questions && shoeData.questions[currentQuestion].copy}</span>
+                            </div>
+                            <div className="on-quiz__question-screen__actions">
+                                <button onClick={() => onFirstBtnClick(currentQuestion)}>
+                                    {firstAnswer}
+                                </button>
+                                <button onClick={() => onSecondBtnClick(currentQuestion)}>
+                                    {secondAnswer}
+                                </button>
+                            </div>
+                        </div>
+                        :
+                        <div className="on-quiz">
+                            <div className="on-quiz__content">
+                                <h1 className="on-quiz__content__title">Take the quiz and try your first pair!</h1>
+                                <button className="on-quiz__content__btn" type="button" onClick={onTrialClick}>
+                                    Try On Trial!
+                                </button>
+                                <span className="on-quiz__content__copy">30 Days risk free</span>
+                            </div>
+                        </div>
+                    }
+                </>}
         </>
     );
 
@@ -99,12 +98,32 @@ export const OnQuizApp = () => {
     }
 
     function onFirstBtnClick(currentQuestion) {
-        setCurrentQuestion(currentQuestion + 1);
+        const isLastQuestion = shoeData.questions && shoeData.questions[currentQuestion].answers[0].nextQuestion === "";
+
+        if (isLastQuestion) {
+            setIsLoading(true)
+            setTimeout(() => {
+                setIsLoading(false)
+            }, 3000)
+        } else {
+            setCurrentQuestion(currentQuestion + 1);
+        }
+
         updateRatingData(AnswerBtn.First);
     }
 
     function onSecondBtnClick(currentQuestion) {
-        setCurrentQuestion(currentQuestion + 1);
+        const isLastQuestion = shoeData.questions && shoeData.questions[currentQuestion].answers[0].nextQuestion === "";
+
+        if (isLastQuestion) {
+            setIsLoading(true)
+            setTimeout(() => {
+                setIsLoading(false)
+            }, 3000)
+        } else {
+            setCurrentQuestion(currentQuestion + 1);
+        }
+
         updateRatingData(AnswerBtn.Second);
     }
 
