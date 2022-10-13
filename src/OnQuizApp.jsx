@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-import './App.scss';
-import { QuizHomepage } from './QuizHomepage';
-import { QuizQuestions } from './QuizQuestions';
-import { QuizResult } from './QuizResult';
-import LoadingPage from './LoadingPage';
+import './OnQuizApp.scss';
+import { QuizHomepage, QuizQuestions, QuizResult, LoadingPage } from './pages';
 
 const AnswerBtn = {
     First: 1,

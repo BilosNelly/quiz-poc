@@ -7,7 +7,7 @@ import {
     CloudventurePeak,
     CloudventureWaterproof,
     CloudX
-} from './assets';
+} from '../assets';
 
 export const QuizResult = (props) => {
 
