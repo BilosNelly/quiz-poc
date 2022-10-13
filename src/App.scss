@@ -116,6 +116,10 @@
             flex-direction: column;
             max-width: 304px;
             padding: 18px 18px;
+
+            >li {
+                all: unset;
+            }
         }
 
         &__title {
@@ -123,6 +127,7 @@
             font-size: 24px;
             font-weight: 200;
             padding-bottom: 16px;
+            text-transform: capitalize;
         }
 
         &__description {
@@ -131,6 +136,7 @@
             color: grey;
             max-width: 200px;
             padding-bottom: 16px;
+            text-transform: capitalize;
         }
 
         &__shoe {
@@ -145,8 +151,12 @@
             }
 
             &__img {
-                background-color: aqua;
                 padding: 32px 0;
+
+                > img {
+                    display: flex;
+                    max-width: 260px;
+                }
             }
 
             &__info {
