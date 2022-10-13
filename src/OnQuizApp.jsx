@@ -25,7 +25,6 @@ export const OnQuizApp = () => {
                 return response.json();
             })
             .then(function (result) {
-               // console.log('myjson', result);
                 setShoeData(result);
             });
     }
@@ -36,6 +35,7 @@ export const OnQuizApp = () => {
 
     const [shoeData, setShoeData] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [showResults, setShowResults] = useState(false);
     //const [showQuestions, setShowQuestions] = useState<boolean>(false);
     const [showQuestions, setShowQuestions] = useState(false);
     const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -56,33 +56,11 @@ export const OnQuizApp = () => {
     const firstAnswerRatingData = shoeData.questions && shoeData.questions[currentQuestion].answers[0].ratingIncrease;
     const secondAnswerRatingData = shoeData.questions && shoeData.questions[currentQuestion].answers[1].ratingIncrease;
 
-    // const sorted = Object.values(currentRating)
-    // .sort()
-    // .reduce((accumulator, key) => {
-    //     accumulator[key] = currentRating[key];
-
-    //     console.log(accumulator)
-    
-    //     return accumulator;
-    //   }, {});
-
-    //   console.log()
-
-    // console.log('1', typeof(currentRating))
-    // console.log('2', Object.values(currentRating))
-
-    // const currentRatingToArray = Object.keys(currentRating);
-    // console.log(currentRatingToArray)
-
-    // const currentRatingToArrayValues = Object.values(currentRating);
-    // console.log(currentRatingToArray)
-
     const sortedShoeNames = Object.entries(currentRating).sort((a,b) => b[1]-a[1]).map(el=>el[0]);
-
 
     return (
         <>
-            {/* {isLoading ? <LoadingPage /> :
+            {isLoading ? <LoadingPage/> :
                 <>
                     {showQuestions ?
                         <div className="on-quiz__question-screen">
@@ -112,9 +90,9 @@ export const OnQuizApp = () => {
                             </div>
                         </div>
                     }
-                </>} */}
-                <QuizResult sortedShoeNames={sortedShoeNames}/>
-        </>
+                </>}
+                {/* <QuizResult sortedShoeNames={sortedShoeNames}/> */}
+                </>
     );
 
     function onTrialClick() {
@@ -125,7 +103,7 @@ export const OnQuizApp = () => {
         const isLastQuestion = shoeData.questions && shoeData.questions[currentQuestion].answers[0].nextQuestion === "";
 
         if (isLastQuestion) {
-            setIsLoading(true)
+            setIsLoading(true);
             setTimeout(() => {
                 setIsLoading(false)
             }, 3000)
