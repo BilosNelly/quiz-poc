@@ -53,6 +53,7 @@ export const QuizResult = (props) => {
                     </li>
                 );
             })}
+            <a onClick={props.onRestartQuizClick}>Try again quiz!</a>
         </div>
     );
 }

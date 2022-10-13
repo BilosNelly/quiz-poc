@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
 
 import './App.scss';
+import { QuizHomepage } from './QuizHomepage';
+import { QuizQuestions } from './QuizQuestions';
 import { QuizResult } from './QuizResult';
 import LoadingPage from './LoadingPage';
 
-//Enum
 const AnswerBtn = {
     First: 1,
     Second: 2
+}
+
+const Page = {
+    HOMEPAGE: 'Homepage',
+    LOADING_STATE: 'LoadingState',
+    RESULTS: 'Results',
+    QUESTIONS: 'Questions'
 }
 
 export const OnQuizApp = () => {
@@ -34,10 +42,7 @@ export const OnQuizApp = () => {
     }, [])
 
     const [shoeData, setShoeData] = useState({});
-    const [isLoading, setIsLoading] = useState(false);
-    const [showResults, setShowResults] = useState(false);
-    //const [showQuestions, setShowQuestions] = useState<boolean>(false);
-    const [showQuestions, setShowQuestions] = useState(false);
+    const [showCurrentPage, setShowCurrentPage] = useState([Page.HOMEPAGE]);
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [currentRating, setCurrentRating] = useState({
         cloud: 0,
@@ -49,63 +54,38 @@ export const OnQuizApp = () => {
         cloudventure_waterproof: 0,
         cloudx: 0,
     });
-
-    const firstAnswer = shoeData.questions && shoeData.questions[currentQuestion].answers[0].copy;
-    const secondAnswer = shoeData.questions && shoeData.questions[currentQuestion].answers[1].copy;
-
     const firstAnswerRatingData = shoeData.questions && shoeData.questions[currentQuestion].answers[0].ratingIncrease;
     const secondAnswerRatingData = shoeData.questions && shoeData.questions[currentQuestion].answers[1].ratingIncrease;
-
-    const sortedShoeNames = Object.entries(currentRating).sort((a,b) => b[1]-a[1]).map(el=>el[0]);
+    const sortedShoeNames = Object.entries(currentRating).sort((a, b) => b[1] - a[1]).map(el => el[0]);
+    const pages = {
+        [Page.HOMEPAGE]: () => <QuizHomepage onTrialClick={onTrialClick} />,
+        [Page.QUESTIONS]: () => <QuizQuestions
+            shoeData={shoeData}
+            currentQuestion={currentQuestion}
+            onFirstBtnClick={onFirstBtnClick}
+            onSecondBtnClick={onSecondBtnClick}
+        />,
+        [Page.LOADING_STATE]: () => <LoadingPage />,
+        [Page.RESULTS]: () => <QuizResult sortedShoeNames={sortedShoeNames} onRestartQuizClick={onRestartQuizClick}/>
+    };
 
     return (
         <>
-            {isLoading ? <LoadingPage/> :
-                <>
-                    {showQuestions ?
-                        <div className="on-quiz__question-screen">
-                            <div className="on-quiz__question-screen__header">
-                                <span>Try on quiz 30 days risk free</span>
-                            </div>
-                            <div className="on-quiz__question-screen__question">
-                                <span>{shoeData.questions && shoeData.questions[currentQuestion].copy}</span>
-                            </div>
-                            <div className="on-quiz__question-screen__actions">
-                                <button onClick={() => onFirstBtnClick(currentQuestion)}>
-                                    {firstAnswer}
-                                </button>
-                                <button onClick={() => onSecondBtnClick(currentQuestion)}>
-                                    {secondAnswer}
-                                </button>
-                            </div>
-                        </div>
-                        :
-                        <div className="on-quiz">
-                            <div className="on-quiz__content">
-                                <h1 className="on-quiz__content__title">Take the quiz and try your first pair!</h1>
-                                <button className="on-quiz__content__btn" type="button" onClick={onTrialClick}>
-                                    Try On Trial!
-                                </button>
-                                <span className="on-quiz__content__copy">30 Days risk free</span>
-                            </div>
-                        </div>
-                    }
-                </>}
-                {/* <QuizResult sortedShoeNames={sortedShoeNames}/> */}
-                </>
+            {pages[showCurrentPage]()}
+        </>
     );
 
     function onTrialClick() {
-        setShowQuestions(true);
+        setShowCurrentPage(Page.QUESTIONS);
     }
 
     function onFirstBtnClick(currentQuestion) {
         const isLastQuestion = shoeData.questions && shoeData.questions[currentQuestion].answers[0].nextQuestion === "";
 
         if (isLastQuestion) {
-            setIsLoading(true);
+            setShowCurrentPage(Page.LOADING_STATE);
             setTimeout(() => {
-                setIsLoading(false)
+                setShowCurrentPage(Page.RESULTS);
             }, 3000)
         } else {
             setCurrentQuestion(currentQuestion + 1);
@@ -118,9 +98,9 @@ export const OnQuizApp = () => {
         const isLastQuestion = shoeData.questions && shoeData.questions[currentQuestion].answers[0].nextQuestion === "";
 
         if (isLastQuestion) {
-            setIsLoading(true)
+            setShowCurrentPage(Page.LOADING_STATE);
             setTimeout(() => {
-                setIsLoading(false)
+                setShowCurrentPage(Page.RESULTS);
             }, 3000)
         } else {
             setCurrentQuestion(currentQuestion + 1);
@@ -143,6 +123,12 @@ export const OnQuizApp = () => {
             cloudventure_waterproof: currentRating.cloudventure_waterproof + ratingData.cloudventure_waterproof,
             cloudx: currentRating.cloudx + ratingData.cloudx,
         });
+    }
+
+    function onRestartQuizClick() {
+        setCurrentRating({});
+        setCurrentQuestion(0);
+        setShowCurrentPage(Page.QUESTIONS);
     }
 }
 

@@ -118,8 +118,16 @@
             max-width: 304px;
             padding: 18px 18px;
 
-            >li {
+            > li {
                 all: unset;
+            }
+
+            > a {
+                align-self: center;
+                cursor: pointer;
+                color: lightgray;
+                font-weight: 700;
+                padding: 8px;
             }
         }
 
