@@ -39,7 +39,7 @@ export const OnQuizApp = () => {
     }, [])
 
     const [shoeData, setShoeData] = useState({});
-    const [showCurrentPage, setShowCurrentPage] = useState([Page.RESULTS]);
+    const [showCurrentPage, setShowCurrentPage] = useState([Page.HOMEPAGE]);
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [currentRating, setCurrentRating] = useState({
         cloud: 0,

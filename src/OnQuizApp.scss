@@ -303,4 +303,17 @@
             font-size: 18px;
         }
     }
+
+    .on-quiz__result {
+        &__wrapper {
+            max-width: fit-content;
+        }
+
+        &__shoe {
+            &__img {
+                display: flex;
+                justify-content: center;
+            }
+        }
+    }
 }
