@@ -28,7 +28,7 @@ export const QuizResult = (props) => {
         <div className="on-quiz__result__wrapper">
             <div className="on-quiz__result">
                 <span className="on-quiz__result__title">Congratulations!</span>
-                <span className="on-quiz__result__description">Based on your selection we've decided on the {shoeNames[1]} and {shoeNames[2]}! Enjoy the 30 day trial!</span>
+                <span className="on-quiz__result__description">Based on your selection we've decided on the {shoeNames[0]} and {shoeNames[1]}! Enjoy the 30 day trial!</span>
             </div>
             {Object.values(shoeNames).map((shoe, index) => {
                 return (
@@ -38,7 +38,7 @@ export const QuizResult = (props) => {
                                 <img src={shoeModels[shoe]} alt="Shoe model img" />
                             </div>
                             <div className="on-quiz__result__shoe">
-                                <span className="on-quiz__result__title">{shoe}</span>
+                                <span className="on-quiz__result__title">{shoe.replace("_", " ")}</span>
                                 <span className="on-quiz__result__description">You perfect partner in the world's lighest fully-cushioned shoe for Running Remixed.</span>
                             </div>
                             <div className="on-quiz__result__shoe__info">
